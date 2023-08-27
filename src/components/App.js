@@ -1,104 +1,43 @@
 import React, { useState } from 'react';
 
-import NewTaskForm from './NewTaskForm';
-import TaskList from './TaskList';
-import Footer from './Footer';
+import MovieList from './Movie-list/Movie-list';
+import './App.scss';
+import NewFilmItem from './New-film-form/New-film-form';
+
+// api key - 56bb73f63d2fd4fad2216060b06eb589
 
 export default function App() {
-  const [data, setData] = useState([]);
-  const [currentFilter, setCurrentFilter] = useState('All');
-
-  const onChangeHandler = (filter) => {
-    setCurrentFilter(filter);
-  };
-  const [count, setCount] = useState(1);
-
-  const createTask = (text) => ({
-    value: text,
-    id: count,
-    done: false,
-    editing: false,
-    createDate: new Date(),
-  });
-
-  const onDeleted = (id) => {
-    setData((prev) => {
-      const idx = prev.findIndex((el) => el.id === id);
-      const newData = prev.toSpliced(idx, 1);
-      return newData;
-    });
-  };
-
-  const onToggleDone = (id) => {
-    setData((p) => {
-      const idx = p.findIndex((el) => el.id === id);
-      const oldItem = p[idx];
-      const newItem = { ...oldItem, done: !oldItem.done };
-      const endCopy = p.toSpliced(idx, 1, newItem);
-      // console.log(endCopy)
-      return endCopy;
-    });
-  };
-
-  const addItem = (text) => {
-    setCount((prev) => prev + 1);
-    setData((prev) => [...prev, createTask(text)]);
-  };
-
-  const filteredTasks = data.filter((el) => {
-    if (currentFilter === 'Active') {
-      return !el.done;
-    }
-    if (currentFilter === 'Completed') {
-      return el.done;
-    }
-    return true;
-  });
-
-  const onClearCompleted = () => {
-    setData((prev) => prev.filter((el) => !el.done));
-  };
-
-  const onToggleEdit = (id) => {
-    setData((p) => {
-      const idx = p.findIndex((el) => el.id === id);
-      const oldItem = p[idx];
-      const newItem = { ...oldItem, editing: !oldItem.editing };
-      const endCopy = p.toSpliced(idx, 1, newItem);
-      // console.log(endCopy)
-      return endCopy;
-    });
-  };
-
-  const onEdit = (newValue, id) => {
-    const idx = data.findIndex((el) => el.id === id);
-    const oldItem = data[idx];
-    const newItem = { ...oldItem, value: newValue, editing: !oldItem.editing };
-    const newData = data.toSpliced(idx, 1, newItem);
-    setData(newData);
-    // console.log(data)
+  // eslint-disable-next-line no-unused-vars
+  const [movies, setMovies] = useState([]);
+  const getData = async (value) => {
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1NmJiNzNmNjNkMmZkNGZhZDIyMTYwNjBiMDZlYjU4OSIsInN1YiI6IjY0ZTQ3MmUyNTk0Yzk0MDEzOWM2YTgyMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-ixtQwXaqeqitTYWucWeprDwUUHXFOofgg44AJtd8ng',
+      },
+    };
+    let response = await fetch(
+      `https://api.themoviedb.org/3/search/movie?query=${value}&include_adult=false&language=en-US&page=1`,
+      options
+    );
+    response = await response.json();
+    setMovies(response.results);
   };
   return (
-    <section className="todoapp">
-      <header className="header">
-        <h1>todos</h1>
-        <NewTaskForm onAddItem={addItem} />
-      </header>
-      <section className="main">
-        <TaskList
-          data={filteredTasks}
-          onDeleted={(id) => onDeleted(id)}
-          onToggleDone={(id) => onToggleDone(id)}
-          onToggleEdit={(id) => onToggleEdit(id)}
-          onEdit={onEdit}
-        />
-        <Footer
-          data={data}
-          onChangeHandler={onChangeHandler}
-          currentFilter={currentFilter}
-          onClearCompleted={onClearCompleted}
-        />
-      </section>
-    </section>
+    <div className="App">
+      <div className="wrapper">
+        <header className="header">
+          <NewFilmItem getData={(value) => getData(value)} />
+        </header>
+        <main className="container">
+          <div className="content">
+            <MovieList getData={getData} movies={movies} />
+          </div>
+        </main>
+        <footer className="footer">3</footer>
+      </div>
+    </div>
   );
 }

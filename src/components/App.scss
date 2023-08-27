@@ -1,0 +1,22 @@
+@import "/src/vars.scss";
+@import "./Movie-list/Movie-list.scss";
+@import "/src/fonts.scss";
+
+body { 
+  background-color: $bckg;
+  font-family: 'Bebas', sans-serif;
+}
+
+.wrapper{
+  margin: 0 auto;
+  max-width: 1010px;
+  background-color: $main;
+}
+.container {
+
+}
+.content {
+  padding-right: 35px;
+  padding-left: 35px;
+  padding-top: 40px;
+}
