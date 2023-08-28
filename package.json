@@ -21,11 +21,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build",
-    "lint": "eslint src/**/*.js",
-    "lint:fix": "eslint --fix **/*{.js,.jsx}",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "prepare": "husky install",
     "lint-staged": "lint-staged",
-    "format": "prettier --write **/*{.js,.jsx}"
+    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [
