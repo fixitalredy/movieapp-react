@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Tag, Col, Row } from "antd";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 export default function MovieItem(props) {
   const { title, date, overview } = props;
