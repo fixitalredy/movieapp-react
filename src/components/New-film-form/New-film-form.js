@@ -1,4 +1,5 @@
 import React from 'react';
+import { Input, Divider } from 'antd';
 
 export default function NewFilmItem(props) {
   const { getData } = props;
@@ -11,5 +12,16 @@ export default function NewFilmItem(props) {
     }
   };
 
-  return <input className="header__input" onKeyDown={onChangeValueHandler} />;
+  return (
+    <>
+      <Divider />
+      <Input
+        style={{ width: 500, fontSize: 18, alignSelf: 'center' }}
+        className="header__input"
+        onKeyDown={onChangeValueHandler}
+        allowClear
+      />
+      <Divider />
+    </>
+  );
 }

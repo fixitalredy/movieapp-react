@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
 
 import MovieList from './Movie-list/Movie-list';
-import './App.scss';
 import NewFilmItem from './New-film-form/New-film-form';
 
 // api key - 56bb73f63d2fd4fad2216060b06eb589
@@ -9,7 +9,7 @@ import NewFilmItem from './New-film-form/New-film-form';
 export default function App() {
   // eslint-disable-next-line no-unused-vars
   const [movies, setMovies] = useState([]);
-  const getData = async (value) => {
+  const getData = async (value = 'A') => {
     const options = {
       method: 'GET',
       headers: {
@@ -25,9 +25,15 @@ export default function App() {
     response = await response.json();
     setMovies(response.results);
   };
+  useEffect(() => {
+    const fetchData = () => {
+      getData();
+    };
+    fetchData();
+  }, []);
   return (
     <div className="App">
-      <div className="wrapper">
+      <div className="wrapper" style={{ textAlign: 'center' }}>
         <header className="header">
           <NewFilmItem getData={(value) => getData(value)} />
         </header>
