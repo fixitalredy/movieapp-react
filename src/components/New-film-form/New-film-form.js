@@ -5,20 +5,26 @@ export default function NewFilmItem(props) {
   const { getData } = props;
 
   const onChangeValueHandler = (event) => {
-    if (event.key === 'Enter') {
-      console.log('a');
-      const inputValue = event.target.value;
-      getData(inputValue);
-    }
+    const inputValue = event.target.value;
+    getData(inputValue);
   };
-
+  const debounce = (fn, ms) => {
+    let timeout;
+    return function (...args) {
+      const fnCall = () => {
+        fn.apply(this, args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(fnCall, ms);
+    };
+  };
   return (
     <>
       <Divider />
       <Input
         style={{ width: 500, fontSize: 18, alignSelf: 'center' }}
         className="header__input"
-        onKeyDown={onChangeValueHandler}
+        onChange={debounce(onChangeValueHandler, 1000)}
         allowClear
       />
       <Divider />

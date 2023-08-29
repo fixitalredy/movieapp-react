@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Tag, Col, Row } from 'antd';
+import { Card, Row, Col, Tag, Typography } from 'antd';
 import { format } from 'date-fns';
 
 export default function MovieItem(props) {
@@ -14,38 +14,70 @@ export default function MovieItem(props) {
   };
 
   const tag = 'tag';
-  const { Meta } = Card;
-
+  const { Text, Title } = Typography;
   return (
-    <li>
-      <Card
-        className="movie-list__item"
+    <Card
+      className="movie-list__item"
+      style={{
+        width: '50%',
+        display: 'flex',
+        justifyContent: 'center',
+        height: '246',
+      }}
+      bodyStyle={{
+        padding: 0,
+      }}
+    >
+      <Row
         style={{
-          width: '50%',
+          height: '100%',
         }}
       >
-        <Row gutter={[16, 16]}>
-          <Col lg={8}>
-            <div className="movie-list__image">
-              <img
-                alt="moviepic"
-                src="https://news.store.rambler.ru/img/7222d314d8abaf270be4e5b51a2c80ef?img-format=auto&img-1-resize=height:350,fit:max&img-2-filter=sharpen"
-              />
-            </div>
-          </Col>
-          <Col lg={16}>
-            <div className="movie-list__info">
-              <Meta title={title} description={cutOverview(overview)} />
-              <p className="movie-list__date">
-                {format(new Date(date), 'MMMM dd, yyyy', { locale: enGB })}
-              </p>
-              <ul className="movie-list__tags">
-                <Tag className="movie-list__tag">{tag}</Tag>
-              </ul>
-            </div>
-          </Col>
-        </Row>
-      </Card>
-    </li>
+        <Col
+          span={10}
+          style={{
+            height: '100%',
+          }}
+        >
+          <img
+            alt="moviepic"
+            width="100%"
+            height="100%"
+            src="https://news.store.rambler.ru/img/7222d314d8abaf270be4e5b51a2c80ef?img-format=auto&img-1-resize=height:350,fit:max&img-2-filter=sharpen"
+          />
+        </Col>
+        <Col
+          span={14}
+          style={{
+            padding: '20px',
+          }}
+        >
+          <div
+            className="movie-list__info"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Title
+              style={{
+                fontSize: 20,
+              }}
+            >
+              {title}
+            </Title>
+            <Text className="movie-list__date">
+              {date
+                ? format(new Date(date), 'MMMM dd, yyyy', { locale: enGB })
+                : null}
+            </Text>
+            <ul className="movie-list__tags">
+              <Tag className="movie-list__tag">{tag}</Tag>
+            </ul>
+            <Text>{cutOverview(overview)}</Text>
+          </div>
+        </Col>
+      </Row>
+    </Card>
   );
 }

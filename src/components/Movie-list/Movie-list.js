@@ -1,21 +1,29 @@
 import React from 'react';
-import { List, Typography } from 'antd';
+import { List, Alert } from 'antd';
+
+import Loader from '../Loader';
 
 import MovieItem from './Movie-Item/Movie-item';
 
 export default function MovieList(props) {
-  const { Text } = Typography;
-  const { movies } = props;
-  if (movies.length === 0) {
+  const { movies, status, error } = props;
+  if (error) {
     return (
-      <Text
+      <Alert
+        type="error"
+        message={`Ошибка ${error.message}`}
         style={{
           fontSize: 20,
+          display: 'inline-block',
         }}
+        showIcon
       >
         No available movies
-      </Text>
+      </Alert>
     );
+  }
+  if (status) {
+    return <Loader />;
   }
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
