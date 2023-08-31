@@ -28,6 +28,13 @@ export default function MovieList(props) {
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
     <List
+      pagination={{
+        pageSize: 10,
+        total: 50,
+        style: {
+          textAlign: 'center',
+        },
+      }}
       grid={{
         gutter: 16,
         column: 2,

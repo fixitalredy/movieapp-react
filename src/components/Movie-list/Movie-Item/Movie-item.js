@@ -12,6 +12,9 @@ export default function MovieItem(props) {
     const substring = text.substring(0, maxSymb - 1);
     return `${substring.slice(0, substring.lastIndexOf(' '))}...`;
   };
+  const formattedDate = format(new Date(date), 'MMMM dd, yyyy', {
+    locale: enGB,
+  });
 
   const tag = 'tag';
   const { Text, Title } = Typography;
@@ -67,9 +70,7 @@ export default function MovieItem(props) {
               {title}
             </Title>
             <Text className="movie-list__date">
-              {date
-                ? format(new Date(date), 'MMMM dd, yyyy', { locale: enGB })
-                : null}
+              {date ? formattedDate : null}
             </Text>
             <ul className="movie-list__tags">
               <Tag className="movie-list__tag">{tag}</Tag>

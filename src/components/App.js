@@ -65,7 +65,6 @@ export default function App() {
             />
           </div>
         </main>
-        <footer className="footer">3</footer>
       </div>
     </div>
   );
