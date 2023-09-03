@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Alert } from 'antd';
+import { Alert } from 'antd';
 
 import Loader from '../Loader';
 
@@ -26,26 +26,28 @@ export default function MovieList(props) {
     return <Loader />;
   }
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
-    <List
-      grid={{
-        gutter: 16,
-        column: 2,
+    <ul
+      style={{
+        listStyleType: 'none',
+        display: 'inline-flex',
+        flexWrap: 'wrap',
+        gap: '18px',
+        flex: '1',
+        alignItems: 'center',
+        paddingLeft: '0px',
+        maxWidth: '1000px',
       }}
-      size="small"
-      dataSource={movies}
-      renderItem={(item) => (
-        <List.Item>
-          <MovieItem
-            key={item.id}
-            title={item.title}
-            overview={item.overview}
-            date={item.release_date}
-          />
-        </List.Item>
-      )}
-      className="content__movie-list movie-list"
-      align="middle"
-    />
+    >
+      {movies.map((item) => (
+        <MovieItem
+          key={item.id}
+          id={item.id}
+          title={item.title}
+          overview={item.overview}
+          date={item.release_date}
+          rating={item.rating}
+        />
+      ))}
+    </ul>
   );
 }
