@@ -8,11 +8,13 @@ export default function NewFilmItem(props) {
   const { getData } = props;
   const { error, errorHandler } = useErrorCatch();
   const onChangeValueHandler = (event) => {
-    try {
-      const inputValue = event.target.value;
-      getData(inputValue);
-    } catch (err) {
-      errorHandler(err);
+    if (event.target.value) {
+      try {
+        const inputValue = event.target.value;
+        getData(inputValue);
+      } catch (err) {
+        errorHandler(err);
+      }
     }
   };
   const debounce = (fn, ms) => {

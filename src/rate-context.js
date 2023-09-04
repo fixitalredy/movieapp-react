@@ -1,5 +1,5 @@
 import React from 'react';
 
-const RateContext = React.createContext();
+const RateGenreContext = React.createContext();
 
-export default RateContext;
+export default RateGenreContext;

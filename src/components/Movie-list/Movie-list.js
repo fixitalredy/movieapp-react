@@ -46,6 +46,8 @@ export default function MovieList(props) {
           overview={item.overview}
           date={item.release_date}
           rating={item.rating}
+          score={item.vote_average}
+          genreIds={item.genre_ids}
         />
       ))}
     </ul>

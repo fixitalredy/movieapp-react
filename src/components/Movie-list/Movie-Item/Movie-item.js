@@ -1,16 +1,27 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Card, Row, Col, Tag, Typography, Alert } from 'antd';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Card, Row, Col, Typography, Alert } from 'antd';
 import { format } from 'date-fns';
 
 import useErrorCatch from '../../useErrorCatch';
+import RateGenreContext from '../../../rate-context';
 
 import Rating from './Rating';
+import Score from './Score';
+import MovieTag from './MovieTag';
 
-export default function MovieItem({ title, date, overview, id, rating }) {
+export default function MovieItem({
+  title,
+  date,
+  overview,
+  id,
+  rating,
+  score,
+  genreIds,
+}) {
   const { enGB } = format;
-
   const [imagePath, setImagePath] = useState();
   const { error, errorHandler } = useErrorCatch();
+  const [genresNames, setGenresNames] = useState([]);
   const cutOverview = (text, maxSymb = 121) => {
     if (text.length < maxSymb) {
       return text;
@@ -24,8 +35,16 @@ export default function MovieItem({ title, date, overview, id, rating }) {
       : format(new Date(date), 'MMMM dd, yyyy', {
           locale: enGB,
         });
-  const tag = 'tag';
   const { Text, Title } = Typography;
+
+  const ctx = useContext(RateGenreContext);
+
+  useEffect(() => {
+    const ids = genreIds;
+    let res = ctx.genres.filter((item) => ids.includes(item.id));
+    res = res.map((item) => item.name);
+    setGenresNames(res);
+  }, [ctx.genres, genreIds, setGenresNames]);
   const getImage = useCallback(
     async (idMovie) => {
       try {
@@ -107,17 +126,32 @@ export default function MovieItem({ title, date, overview, id, rating }) {
                 height: '100%',
               }}
             >
-              <Title
+              <div
+                className="header"
                 style={{
-                  fontSize: 20,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
                 }}
               >
-                {title}
-              </Title>
+                {' '}
+                <Title
+                  style={{
+                    fontSize: 20,
+                  }}
+                >
+                  {title}
+                </Title>
+                <Score score={score} />
+              </div>
+
               <Text className="movie-list__date">{formattedDate}</Text>
               <ul className="movie-list__tags">
-                <Tag className="movie-list__tag">{tag}</Tag>
+                {genresNames.map((name) => (
+                  <MovieTag genreName={name} />
+                ))}
               </ul>
+
               <Text
                 style={{
                   marginBottom: '20px',

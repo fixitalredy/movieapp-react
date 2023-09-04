@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Rate } from 'antd';
 
 import RateContext from '../../../rate-context';

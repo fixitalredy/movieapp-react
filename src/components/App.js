@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import RateContext from '../rate-context';
+import RateGenreContext from '../rate-context';
 
 import OnlineStatus from './OnlineStatus';
 import TabsMovie from './Tabs/Tabs';
@@ -18,6 +18,8 @@ export default function App() {
   const [showRated, setShowRated] = useState(false);
   const [ratedMovies, setRatedMovies] = useState([]);
   const [page, setPage] = useState(1);
+  const [value, setValue] = useState('A');
+  const [genres, setGenres] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,11 +43,12 @@ export default function App() {
     setPage(pg);
   };
   const getData = useCallback(
-    async (value = 'A') => {
+    async (val = value) => {
       setLoading(true);
+      setValue(val);
       try {
         let response = await fetch(
-          `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`,
+          `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${val}&page=${page}&include_adult=false`,
           {
             method: 'GET',
             headers: {
@@ -61,8 +64,26 @@ export default function App() {
         setLoading(false);
       }
     },
-    [page]
+    [page, value]
   );
+  const getGenres = useCallback(async () => {
+    try {
+      let response = await fetch(
+        `https://api.themoviedb.org/3/genre/movie/list?language=en&api_key=${apiKey}`,
+        {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+          },
+        }
+      );
+      response = await response.json();
+      setGenres(response.genres);
+      console.log(response.genres);
+    } catch (err) {
+      setError(err);
+    }
+  }, []);
   const getRated = useCallback(async () => {
     try {
       let response = await fetch(
@@ -92,8 +113,13 @@ export default function App() {
       await getData();
     };
     fetchData();
-  }, [page, getData]);
-
+  }, [page, getData, value]);
+  useEffect(() => {
+    const fetchData = async () => {
+      await getGenres();
+    };
+    fetchData();
+  }, [getGenres]);
   useEffect(() => {
     if (sessionId && showRated) {
       const fetchData = async () => {
@@ -107,11 +133,12 @@ export default function App() {
     () => ({
       sessionId,
       apiKey,
+      genres,
     }),
-    [sessionId]
+    [sessionId, genres]
   );
   return (
-    <RateContext.Provider value={contextValue}>
+    <RateGenreContext.Provider value={contextValue}>
       <div
         className="App"
         style={{ display: 'flex', justifyContent: 'center' }}
@@ -136,7 +163,7 @@ export default function App() {
             }}
           >
             <TabsMovie
-              getData={(value) => getData(value)}
+              getData={(val) => getData(val)}
               changeList={(key) => changeList(key)}
               movies={movies}
               error={error}
@@ -149,6 +176,6 @@ export default function App() {
           </footer>
         </div>
       </div>
-    </RateContext.Provider>
+    </RateGenreContext.Provider>
   );
 }
