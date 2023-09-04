@@ -46,11 +46,8 @@ export default function TabsMovie({
       defaultActiveKey="1"
       onChange={changeTab}
       items={items}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
+      centered
+      style={{ backgroundColor: 'white' }}
     />
   );
 }

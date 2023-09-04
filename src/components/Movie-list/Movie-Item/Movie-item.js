@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 
 import useErrorCatch from '../../useErrorCatch';
 import RateGenreContext from '../../../rate-context';
+import Loader from '../../Loader';
 
 import Rating from './Rating';
 import Score from './Score';
@@ -22,6 +23,16 @@ export default function MovieItem({
   const [imagePath, setImagePath] = useState();
   const { error, errorHandler } = useErrorCatch();
   const [genresNames, setGenresNames] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const cutTitle = (text, maxSymb = 50) => {
+    if (text.length < maxSymb) {
+      return text;
+    }
+    const substring = text.substring(0, maxSymb - 1);
+    return `${substring.slice(0, substring.lastIndexOf(' '))}...`;
+  };
+  // функция сокращения описания
   const cutOverview = (text, maxSymb = 121) => {
     if (text.length < maxSymb) {
       return text;
@@ -29,24 +40,27 @@ export default function MovieItem({
     const substring = text.substring(0, maxSymb - 1);
     return `${substring.slice(0, substring.lastIndexOf(' '))}...`;
   };
-  const formattedDate =
-    date === ''
-      ? 'unknown date'
-      : format(new Date(date), 'MMMM dd, yyyy', {
-          locale: enGB,
-        });
-  const { Text, Title } = Typography;
 
+  // форматирование даты
+  const formattedDate = date
+    ? format(new Date(date), 'MMMM dd, yyyy', { locale: enGB })
+    : 'Unknown date';
+
+  const { Text, Title } = Typography;
   const ctx = useContext(RateGenreContext);
 
+  // эффект айди в имена жанров
   useEffect(() => {
     const ids = genreIds;
     let res = ctx.genres.filter((item) => ids.includes(item.id));
     res = res.map((item) => item.name);
     setGenresNames(res);
   }, [ctx.genres, genreIds, setGenresNames]);
+
+  // функция загрузки картинок
   const getImage = useCallback(
     async (idMovie) => {
+      setIsLoading(true);
       try {
         const options = {
           method: 'GET',
@@ -66,45 +80,38 @@ export default function MovieItem({
         );
       } catch (err) {
         errorHandler(err);
+      } finally {
+        setIsLoading(false);
       }
     },
     [errorHandler]
   );
+
+  // Загрузка картинок эффект
   useEffect(() => {
-    getImage(id);
-  }, [getImage, id]);
+    if (isLoading) {
+      getImage(id);
+    }
+  }, [getImage, id, isLoading]);
+
   return (
-    <li
-      className="movie-list__item"
-      style={{
-        maxWidth: '491px',
-      }}
-    >
+    <li className="movie-list__item" style={{ maxWidth: '491px' }}>
       <Card
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           height: '246',
         }}
-        bodyStyle={{
-          padding: 0,
-        }}
+        bodyStyle={{ padding: 0 }}
       >
-        <Row
-          style={{
-            height: '100%',
-          }}
-        >
-          <Col
-            span={8}
-            style={{
-              height: '100%',
-            }}
-          >
-            {error ? (
+        <Row style={{ height: '100%' }}>
+          <Col span={8} style={{ height: '100%', textAlign: 'center' }}>
+            {isLoading ? (
+              <Loader />
+            ) : error ? (
               <Alert
                 type="error"
-                message="Ошибка при загрузке постера"
+                message="Error loading poster"
                 style={{
                   fontSize: 20,
                   display: 'inline-block',
@@ -113,7 +120,7 @@ export default function MovieItem({
                 }}
               />
             ) : (
-              <img alt="moviepic" height="100%" width="100%" src={imagePath} />
+              <img alt="" height="100%" width="100%" src={imagePath} />
             )}
           </Col>
           <Col span={16} style={{ padding: '20px' }}>
@@ -127,20 +134,19 @@ export default function MovieItem({
               }}
             >
               <div
-                className="header"
+                className="info-header"
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
                 }}
               >
-                {' '}
                 <Title
                   style={{
                     fontSize: 20,
                   }}
                 >
-                  {title}
+                  {cutTitle(title)}
                 </Title>
                 <Score score={score} />
               </div>
@@ -148,7 +154,7 @@ export default function MovieItem({
               <Text className="movie-list__date">{formattedDate}</Text>
               <ul className="movie-list__tags">
                 {genresNames.map((name) => (
-                  <MovieTag genreName={name} />
+                  <MovieTag genreName={name} key={name} />
                 ))}
               </ul>
 

@@ -52,6 +52,7 @@ export default function NewFilmItem(props) {
           fontSize: 18,
           alignSelf: 'center',
           marginTop: '20px',
+          marginBottom: '20px',
         }}
         className="header__input"
         onChange={debounce(onChangeValueHandler, 1000)}

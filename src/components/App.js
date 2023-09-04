@@ -79,7 +79,6 @@ export default function App() {
       );
       response = await response.json();
       setGenres(response.genres);
-      console.log(response.genres);
     } catch (err) {
       setError(err);
     }
@@ -141,7 +140,11 @@ export default function App() {
     <RateGenreContext.Provider value={contextValue}>
       <div
         className="App"
-        style={{ display: 'flex', justifyContent: 'center' }}
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          backgroundColor: '#F7F7F7',
+        }}
       >
         <div
           className="wrapper"
@@ -155,11 +158,9 @@ export default function App() {
         >
           <OnlineStatus />
           <main
-            className="header"
+            className="main"
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              width: '100%',
             }}
           >
             <TabsMovie
