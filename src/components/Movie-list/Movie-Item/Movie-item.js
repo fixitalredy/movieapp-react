@@ -99,6 +99,7 @@ export default function MovieItem({
       <Card
         style={{
           display: 'flex',
+          height: '100%',
           justifyContent: 'space-between',
         }}
         bodyStyle={{ padding: 0 }}
@@ -107,7 +108,7 @@ export default function MovieItem({
           <Col
             xs={0}
             sm={0}
-            md={6}
+            md={8}
             lg={8}
             xl={8}
             style={{ height: '100%', textAlign: 'center' }}
@@ -135,7 +136,7 @@ export default function MovieItem({
           <Col
             xs={24}
             sm={24}
-            md={18}
+            md={16}
             lg={16}
             xl={16}
             style={{ padding: '20px' }}

@@ -37,7 +37,15 @@ export default function TabsMovie({
       key: '2',
       label: 'Rated',
       children: (
-        <MovieList movies={ratedMovies} status={loading} error={error} />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <MovieList movies={ratedMovies} status={loading} error={error} />
+        </div>
       ),
     },
   ];
