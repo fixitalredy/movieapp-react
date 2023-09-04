@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import RateGenreContext from '../rate-context';
@@ -10,7 +9,6 @@ import MoviePagination from './Pagination/Pagination';
 const apiKey = '56bb73f63d2fd4fad2216060b06eb589';
 
 export default function App() {
-  // eslint-disable-next-line no-unused-vars
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -39,9 +37,11 @@ export default function App() {
     };
     fetchData();
   }, []);
+
   const changePage = (pg) => {
     setPage(pg);
   };
+
   const getData = useCallback(
     async (val = value) => {
       setLoading(true);
@@ -66,6 +66,7 @@ export default function App() {
     },
     [page, value]
   );
+
   const getGenres = useCallback(async () => {
     try {
       let response = await fetch(
@@ -83,6 +84,7 @@ export default function App() {
       setError(err);
     }
   }, []);
+
   const getRated = useCallback(async () => {
     try {
       let response = await fetch(
@@ -102,23 +104,27 @@ export default function App() {
       setLoading(false);
     }
   }, [sessionId]);
+
   const changeList = (key) => {
     if (key === '2') {
       setShowRated(true);
     } else setShowRated(false);
   };
+
   useEffect(() => {
     const fetchData = async () => {
       await getData();
     };
     fetchData();
   }, [page, getData, value]);
+
   useEffect(() => {
     const fetchData = async () => {
       await getGenres();
     };
     fetchData();
   }, [getGenres]);
+
   useEffect(() => {
     if (sessionId && showRated) {
       const fetchData = async () => {
@@ -136,33 +142,13 @@ export default function App() {
     }),
     [sessionId, genres]
   );
+
   return (
     <RateGenreContext.Provider value={contextValue}>
-      <div
-        className="App"
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          backgroundColor: '#F7F7F7',
-        }}
-      >
-        <div
-          className="wrapper"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '60%',
-          }}
-        >
+      <div className="App">
+        <div className="wrapper">
           <OnlineStatus />
-          <main
-            className="main"
-            style={{
-              width: '100%',
-            }}
-          >
+          <main className="header">
             <TabsMovie
               getData={(val) => getData(val)}
               changeList={(key) => changeList(key)}

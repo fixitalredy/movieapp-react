@@ -5,6 +5,8 @@ export default function Score({ score }) {
   return (
     <div
       style={{
+        maxWidth: '50px',
+        maxHeight: '50px',
         minWidth: '50px',
         minHeight: '50px',
         fontSize: '25px',

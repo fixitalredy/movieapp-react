@@ -45,10 +45,10 @@ export default function NewFilmItem(props) {
       No available movies
     </Alert>
   ) : (
-    <>
+    <div className="new-movie-form">
       <Input
         style={{
-          width: 500,
+          width: '100%',
           fontSize: 18,
           alignSelf: 'center',
           marginTop: '20px',
@@ -59,6 +59,6 @@ export default function NewFilmItem(props) {
         allowClear
       />
       <Divider />
-    </>
+    </div>
   );
 }

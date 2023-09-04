@@ -26,18 +26,7 @@ export default function MovieList(props) {
     return <Loader />;
   }
   return (
-    <ul
-      style={{
-        listStyleType: 'none',
-        display: 'inline-flex',
-        flexWrap: 'wrap',
-        gap: '18px',
-        flex: '1',
-        alignItems: 'center',
-        paddingLeft: '0px',
-        maxWidth: '1000px',
-      }}
-    >
+    <ul className="movie-list">
       {movies.map((item) => (
         <MovieItem
           key={item.id}

@@ -95,77 +95,111 @@ export default function MovieItem({
   }, [getImage, id, isLoading]);
 
   return (
-    <li className="movie-list__item" style={{ maxWidth: '491px' }}>
+    <li className="movie-list__item">
       <Card
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          height: '246',
         }}
         bodyStyle={{ padding: 0 }}
       >
         <Row style={{ height: '100%' }}>
-          <Col span={8} style={{ height: '100%', textAlign: 'center' }}>
-            {isLoading ? (
-              <Loader />
-            ) : error ? (
-              <Alert
-                type="error"
-                message="Error loading poster"
-                style={{
-                  fontSize: 20,
-                  display: 'inline-block',
-                  width: '100%',
-                  height: '100%',
-                }}
-              />
-            ) : (
-              <img alt="" height="100%" width="100%" src={imagePath} />
-            )}
-          </Col>
-          <Col span={16} style={{ padding: '20px' }}>
-            <div
-              className="movie-list__info"
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                height: '100%',
-              }}
-            >
-              <div
-                className="info-header"
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
-              >
-                <Title
+          <Col
+            xs={0}
+            sm={0}
+            md={6}
+            lg={8}
+            xl={8}
+            style={{ height: '100%', textAlign: 'center' }}
+          >
+            <div className="movie-list__image--big">
+              {' '}
+              {isLoading ? (
+                <Loader />
+              ) : error ? (
+                <Alert
+                  type="error"
+                  message="Error loading poster"
                   style={{
                     fontSize: 20,
+                    display: 'inline-block',
+                    width: '100%',
+                    height: '100%',
                   }}
-                >
-                  {cutTitle(title)}
-                </Title>
-                <Score score={score} />
+                />
+              ) : (
+                <img alt="" height="100%" width="100%" src={imagePath} />
+              )}
+            </div>
+          </Col>
+          <Col
+            xs={24}
+            sm={24}
+            md={18}
+            lg={16}
+            xl={16}
+            style={{ padding: '20px' }}
+          >
+            <div className="movie-list__info">
+              <div className="movie-list__top">
+                <div className="movie-list__image--small">
+                  {isLoading ? (
+                    <Loader />
+                  ) : error ? (
+                    <Alert
+                      className="movie-list__alert-small"
+                      type="error"
+                      message="Error loading poster"
+                      style={{
+                        fontSize: 20,
+                        display: 'inline-block',
+                        width: '80px',
+                        height: '120px',
+                      }}
+                    />
+                  ) : (
+                    <img alt="" height="120px" width="80px" src={imagePath} />
+                  )}
+                </div>
+                <div className="info-header">
+                  <div className="info-header__top">
+                    <Title
+                      style={{
+                        fontSize: 20,
+                      }}
+                    >
+                      {cutTitle(title)}
+                    </Title>
+                    <Score score={score} />
+                  </div>
+                  <div className="info-header__bottom">
+                    <Text className="movie-list__date">{formattedDate}</Text>
+                    <ul className="movie-list__tags">
+                      {genresNames.map((name) => (
+                        <MovieTag genreName={name} key={name} />
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
-
-              <Text className="movie-list__date">{formattedDate}</Text>
-              <ul className="movie-list__tags">
-                {genresNames.map((name) => (
-                  <MovieTag genreName={name} key={name} />
-                ))}
-              </ul>
-
-              <Text
+              <div
+                className="movie-list__bottom"
                 style={{
-                  marginBottom: '20px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
                 }}
               >
-                {cutOverview(overview)}
-              </Text>
-              <Rating movieId={id} newRating={rating} />
+                {' '}
+                <Text
+                  style={{
+                    marginBottom: '20px',
+                  }}
+                >
+                  {cutOverview(overview)}
+                </Text>
+                <Rating movieId={id} newRating={rating} />
+              </div>
             </div>
           </Col>
         </Row>
