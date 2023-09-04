@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import RateGenreContext from '../rate-context';
 
-import OnlineStatus from './OnlineStatus';
+import OnlineStatus from './Online-status/OnlineStatus';
 import TabsMovie from './Tabs/Tabs';
 import MoviePagination from './Pagination/Pagination';
 

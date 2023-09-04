@@ -1,8 +1,7 @@
 import React from 'react';
 import { Alert } from 'antd';
 
-import Loader from '../Loader';
-
+import Loader from './Loader/Loader';
 import MovieItem from './Movie-Item/Movie-item';
 
 export default function MovieList(props) {

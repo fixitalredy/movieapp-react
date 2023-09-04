@@ -67,6 +67,7 @@
 }
 .movie-list__bottom {
   padding-top: 10px;
+  padding-bottom: 10px;
   height: 100%;
 }
 .movie-list__right {
@@ -91,7 +92,7 @@
 @media (max-width: 768px) {
   .movie-list__item {
     width: 90%;
-    max-height: 275px;
+    max-height: 251px;
   }
   .movie-list {
     flex-direction: column;

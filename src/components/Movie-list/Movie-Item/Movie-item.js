@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 
 import useErrorCatch from '../../useErrorCatch';
 import RateGenreContext from '../../../rate-context';
-import Loader from '../../Loader';
+import Loader from '../Loader/Loader';
 
 import Rating from './Rating';
 import Score from './Score';
@@ -139,7 +139,10 @@ export default function MovieItem({
             md={16}
             lg={16}
             xl={16}
-            style={{ padding: '20px' }}
+            style={{
+              paddingLeft: '20px',
+              paddingRight: '20px',
+            }}
           >
             <div className="movie-list__info">
               <div className="movie-list__top">
@@ -192,13 +195,7 @@ export default function MovieItem({
                 }}
               >
                 {' '}
-                <Text
-                  style={{
-                    marginBottom: '20px',
-                  }}
-                >
-                  {cutOverview(overview)}
-                </Text>
+                <Text>{cutOverview(overview)}</Text>
                 <Rating movieId={id} newRating={rating} />
               </div>
             </div>
