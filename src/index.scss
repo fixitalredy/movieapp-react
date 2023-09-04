@@ -53,6 +53,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .info-header__bottom {
   margin-bottom: auto;
@@ -74,7 +75,7 @@
 }
 @media (max-width: 1666px) {
   .movie-list__item {
-    max-width: 550px;
+    max-width: 550px; 
     height: 300px;
   }
   .movie-list {
