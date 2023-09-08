@@ -4,7 +4,6 @@ import RateGenreContext from '../rate-context';
 
 import OnlineStatus from './Online-status/OnlineStatus';
 import TabsMovie from './Tabs/Tabs';
-import MoviePagination from './Pagination/Pagination';
 
 const apiKey = '56bb73f63d2fd4fad2216060b06eb589';
 
@@ -16,6 +15,7 @@ export default function App() {
   const [showRated, setShowRated] = useState(false);
   const [ratedMovies, setRatedMovies] = useState([]);
   const [page, setPage] = useState(1);
+  const [ratedPage, setRatedPage] = useState(1);
   const [value, setValue] = useState('A');
   const [genres, setGenres] = useState([]);
 
@@ -38,8 +38,11 @@ export default function App() {
     fetchData();
   }, []);
 
-  const changePage = (pg) => {
+  const changePageMovies = (pg) => {
     setPage(pg);
+  };
+  const changePageRatedMovies = (pg) => {
+    setRatedPage(pg);
   };
 
   const getData = useCallback(
@@ -88,7 +91,7 @@ export default function App() {
   const getRated = useCallback(async () => {
     try {
       let response = await fetch(
-        `https://api.themoviedb.org/3/guest_session/${sessionId}/rated/movies?api_key=${apiKey}&language=en-US&page=1&sort_by=created_at.asc`,
+        `https://api.themoviedb.org/3/guest_session/${sessionId}/rated/movies?api_key=${apiKey}&language=en-US&page=1&sort_by=created_at.asc&page=${ratedPage}`,
         {
           method: 'GET',
           headers: {
@@ -103,7 +106,7 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  }, [sessionId]);
+  }, [ratedPage, sessionId]);
 
   const changeList = (key) => {
     if (key === '2') {
@@ -156,11 +159,12 @@ export default function App() {
               error={error}
               loading={loading}
               ratedMovies={ratedMovies}
+              changePageRatedMovies={changePageRatedMovies}
+              changePageMovies={changePageMovies}
+              page={page}
+              ratedPage={ratedPage}
             />
           </main>
-          <footer>
-            <MoviePagination changePage={changePage} />
-          </footer>
         </div>
       </div>
     </RateGenreContext.Provider>

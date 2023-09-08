@@ -3,6 +3,7 @@ import { Tabs } from 'antd';
 
 import NewFilmItem from '../New-film-form/New-film-form';
 import MovieList from '../Movie-list/Movie-list';
+import MoviePagination from '../Pagination/Pagination';
 
 export default function TabsMovie({
   ratedMovies,
@@ -11,6 +12,10 @@ export default function TabsMovie({
   movies,
   error,
   loading,
+  changePageRatedMovies,
+  changePageMovies,
+  page,
+  ratedPage,
 }) {
   const changeTab = (key) => {
     changeList(key);
@@ -30,6 +35,11 @@ export default function TabsMovie({
         >
           <NewFilmItem getData={(value) => getData(value)} />
           <MovieList movies={movies} status={loading} error={error} />
+          <MoviePagination
+            changePage={changePageMovies}
+            movies={movies}
+            page={page}
+          />
         </div>
       ),
     },
@@ -45,6 +55,11 @@ export default function TabsMovie({
           }}
         >
           <MovieList movies={ratedMovies} status={loading} error={error} />
+          <MoviePagination
+            changePage={changePageRatedMovies}
+            movies={ratedMovies}
+            page={ratedPage}
+          />
         </div>
       ),
     },
